@@ -15,7 +15,10 @@ except OSError:
 os.chdir(folderName)
 soup = BeautifulSoup(r.text)
 imgUrls = ['http:' + r['href'] for r in soup.findAll(class_ = "fileThumb")]
-for image in imgUrls:
+
+template= "<img src='%s'><br>%d<br>"
+pfile = open("index.html","a")
+for n,image in enumerate(imgUrls):
     print image
     fname = image.split("/")[-1]
     if os.path.exists(fname):
@@ -24,3 +27,5 @@ for image in imgUrls:
     f  = open(fname,"w")
     f.write(r.content)
     f.close()
+    pfile.write(template % (fname,n))
+pfile.close()
